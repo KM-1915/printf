@@ -52,3 +52,17 @@ void printDefaultFormatting(int num, float floatNum, char character);
 void printLeftJustifiedFormatting(int num, float floatNum, char character);
 
 #endif /* MAIN_H */
+
+/*flag r1*/
+#ifndef CUSTOM_PRINTF_H
+#define CUSTOM_PRINTF_H
+
+#include <stdio.h>
+#include <string.h>
+#include <stdarg.h>
+
+void reverseString(char *str);
+
+int customPrintf(const char *format, ...);
+
+#endif // CUSTOM_PRINTF_H

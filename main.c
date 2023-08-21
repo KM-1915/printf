@@ -280,3 +280,47 @@ void printLeftJustifiedFormatting(int num, float floatNum, char character) {
     printf("Float: %-10f|\n", floatNum);
     printf("Character: %-10c|\n", character);
 }
+
+/*flag r1*/
+#include <stdio.h>
+#include <string.h>
+#include <stdarg.h>
+
+void reverseString(char *str) {
+    int length = strlen(str);
+    for (int i = 0; i < length / 2; i++) {
+        char temp = str[i];
+        str[i] = str[length - i - 1];
+        str[length - i - 1] = temp;
+    }
+}
+
+int customPrintf(const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+
+    int count = 0;
+    int i = 0;
+    while (format[i] != '\0') {
+        if (format[i] == '%' && format[i + 1] == 'r') {
+            i++; // Move past '%'
+            char *str = va_arg(args, char *);
+            reverseString(str);
+            count += printf("%s", str);
+        } else {
+            count += printf("%c", format[i]);
+        }
+        i++;
+    }
+
+    va_end(args);
+    return count;
+}
+
+int main() {
+    char text[] = "Hello, world!";
+    char format[] = "Original: %s\nReversed: %r\n";
+
+    customPrintf(format, text, text);
+    return 0;
+}
