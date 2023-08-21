@@ -41,3 +41,14 @@ void custom_printf(const char *format, ...);
 
 #endif // MAIN_H
 
+/*- flag*/
+#ifndef MAIN_H
+#define MAIN_H
+
+#include <stdio.h>
+
+// Function declarations
+void printDefaultFormatting(int num, float floatNum, char character);
+void printLeftJustifiedFormatting(int num, float floatNum, char character);
+
+#endif /* MAIN_H */
