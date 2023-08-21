@@ -1,1 +1,1 @@
-Handle the field width for non-custom conversion specifiers
+Handle the precision for non-custom conversion specifiers.

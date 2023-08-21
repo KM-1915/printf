@@ -116,3 +116,76 @@ void handleFieldWidth(int intValue, float floatValue, char charValue) {
     // Handling field width for character value
     printf("Char with width 5:     |%5c|\n", charValue);
 }
+/*precision*/
+#include <stdio.h>
+#include <stdarg.h>
+
+// Custom function to handle precision for non-custom conversion specifiers
+void custom_printf(const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+
+    while (*format) {
+        // Normal characters are printed as-is
+        if (*format != '%') {
+            putchar(*format);
+            format++;
+            continue;
+        }
+
+        // Handle format specifiers
+        format++;
+
+        // Check for precision
+        int precision = -1; // Initialize precision to -1 (no precision specified)
+        if (*format == '.') {
+            format++; // Move past the '.'
+            precision = 0; // Initialize precision to 0
+            
+            // Parse precision value
+            while (*format >= '0' && *format <= '9') {
+                precision = precision * 10 + (*format - '0');
+                format++;
+            }
+        }
+
+        // Process conversion specifiers
+        switch (*format) {
+            case 'd':
+            case 'i': {
+                int num = va_arg(args, int);
+                if (precision == -1) {
+                    printf("%d", num);
+                } else {
+                    printf("%0*d", precision, num);
+                }
+                break;
+            }
+            case 'f': {
+                double num = va_arg(args, double);
+                if (precision == -1) {
+                    printf("%f", num);
+                } else {
+                    printf("%.*f", precision, num);
+                }
+                break;
+            }
+            // Add more cases for other conversion specifiers as needed
+            default:
+                putchar('%');
+                putchar(*format);
+                break;
+        }
+
+        format++;
+    }
+
+    va_end(args);
+}
+
+int main() {
+    custom_printf("Integer: %.5d\n", 123);
+    custom_printf("Float: %.2f\n", 3.14159);
+
+    return 0;
+}

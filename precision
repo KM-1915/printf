@@ -1,0 +1,15 @@
+#include <stdio.h>
+
+int main() {
+    double num = 123.456789;
+    char str[] = "Hello, World!";
+    
+    // Handling precision for floating-point numbers (%f)
+    printf("Floating-point number with precision: %.2f\n", num); // Output: 123.46
+
+    // Handling precision for strings (%s)
+    int maxChars = 5;
+    printf("String with precision: %.*s\n", maxChars, str); // Output: Hello
+
+    return 0;
+}
