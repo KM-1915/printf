@@ -1,3 +1,3 @@
 Handle the following custom conversion specifier:
 
-r : prints the reversed string
+R: prints the rot13'ed string

@@ -66,3 +66,17 @@ void reverseString(char *str);
 int customPrintf(const char *format, ...);
 
 #endif // CUSTOM_PRINTF_H
+
+/*flag r2*/
+#ifndef CUSTOM_PRINTF_H
+#define CUSTOM_PRINTF_H
+
+#include <stdio.h>
+#include <string.h>
+#include <stdarg.h>
+
+void rot13String(char *str);
+
+int customPrintf(const char *format, ...);
+
+#endif // CUSTOM_PRINTF_H
