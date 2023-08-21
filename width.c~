@@ -1,0 +1,12 @@
+def format_with_width(value, width, specifier):
+    formatted_value = f"{value:{width}{specifier}}"
+    return formatted_value
+
+# Test cases
+values = [10, 12345, 678.9, "hello"]
+widths = [5, 8, 10, 6]
+specifiers = ["d", "d", ".2f", "s"]
+
+for value, width, specifier in zip(values, widths, specifiers):
+    formatted_value = format_with_width(value, width, specifier)
+    print(f"Value: {value}, Width: {width}, Specifier: {specifier} => Formatted: '{formatted_value}'")
