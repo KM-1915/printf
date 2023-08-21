@@ -30,3 +30,14 @@ void custom_printf(const char *format, ...);
 
 #endif // MAIN_H
 
+/*0 flag */
+#ifndef MAIN_H
+#define MAIN_H
+
+#include <stdarg.h>
+
+// Custom printf function with '0' flag support
+void custom_printf(const char *format, ...);
+
+#endif // MAIN_H
+
