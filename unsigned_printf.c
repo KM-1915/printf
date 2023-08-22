@@ -3,9 +3,9 @@
 #include<stdio.h>
 #include<stdlib.h>
 /**
- * printf_oct - prints an octal number.
- * @val: arguments.
- * Return: counter.
+ * printf_oct - prints an octal number
+ * @val: arguments
+ * Return: counter
  */
 int printf_oct(va_list val)
 {
@@ -150,11 +150,11 @@ int printf_HEX(va_list val)
 }
 
 /**
- * printf_hex_aux - prints an hexgecimal number.
+ * printf_hexidec - prints an hexgecimal number.
  * @num: arguments.
  * Return: counter.
  */
-int printf_hex_aux(unsigned long int num)
+int printf_hexidec(unsigned long int num)
 {
 	long int i;
 	long int *array;
