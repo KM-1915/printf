@@ -2,14 +2,14 @@
 #include<stdio.h>
 #include<stdarg.h>
 #include<stdlib.h>
-void print_buffer (char buffer[], int *buff_ind);
+void print_buffer(char buffer[], int *buff_ind);
 /**
 * _printf - produces output according to a format
 * @format: a character string
 * Return: the number of characters printed
 * excluding the null byte used to end output to strings
 */
-int _printf (const char *format, ...)
+int _printf(const char *format, ...)
 {
         int i, printed = 0, printed_chars = 0;
         int flags, width, precision, size, buff_ind = 0;
