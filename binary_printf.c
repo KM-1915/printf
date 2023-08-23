@@ -10,7 +10,7 @@
 int print_num(int i)
 {
 	unsigned int a, b, c, d, e;
-	int i = 0;
+	int num = 0;
 
 	if (i < 0)
 	{
@@ -35,6 +35,7 @@ int print_num(int i)
 	}
 	return (num);
 }
+
 /**
  * print_binary - chnages decimals to binary
  * @i: decimal

@@ -20,7 +20,7 @@ int print_hex(unsigned int i)
 		num_copy /= 16;
 		num++;
 	}
-	hexadecimal = malloc(count);
+	hexa = malloc(num);
 	for (n = 0; i != 0; n++)
 	{
 		remainder = 0;

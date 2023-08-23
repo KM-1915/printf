@@ -7,9 +7,9 @@
  *@i: unsigned int
  * Return: numer times print
  */
-int print_int(uintptr_t i)
+int print_int(intptr_t i)
 {
-	uintptr_t frac, temp;
+	intptr_t frac, temp;
 
 	int mor = 1, mor2;
 	char hexadec[100];

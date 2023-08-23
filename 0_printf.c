@@ -11,14 +11,14 @@
  */
 int _form4(char c, int num, va_list arg)
 {
-	uintptr_t p;
+	intptr_t p;
 	void *pi;
 
 	switch (c)
 	{
 	case 'p':
 		pi = va_arg(arg, void *);
-		p = (uintptr_t)*pi;
+		p = (intptr_t)pi;
 		if (pi == NULL)
 		{
 			_printf("(nil)");
@@ -29,7 +29,7 @@ int _form4(char c, int num, va_list arg)
 			_putchar('0');
 			_putchar('x');
 			num += 2;
-			num += print_hexa16(p);
+			num += print_hex(p);
 		}
 		break;
 	default:
@@ -96,12 +96,12 @@ int _form2(char c, int num, va_list arg)
 		case 'b':
 			k = va_arg(arg, unsigned int);
 
-			num += print_bin(k);
+			num += print_binary(k);
 			break;
 		case 'o':
 			k = va_arg(arg, unsigned int);
 
-			num += print_oct(k);
+			num += print_int(k);
 			break;
 		case 'x':
 			k = va_arg(arg, unsigned int);
@@ -111,12 +111,12 @@ int _form2(char c, int num, va_list arg)
 		case 'X':
 			k = va_arg(arg, unsigned int);
 
-			num += print_HEX(k);
+			num += print_Hex(k);
 			break;
 		case 'u':
 			k = va_arg(arg, unsigned int);
 
-			num += print_unsig(k);
+			num += print_unsigned(k);
 			break;
 		default:
 			num = _form3(c, num, arg);
@@ -151,10 +151,10 @@ int _form(char c, int num, va_list arg)
 					_putchar(si[n]);
 			}
 			else
-				count += _printstring(s);
+				num += _printstr(s);
 			break;
 		case '%':
-			count += _putchar('%');
+			num += _putchar('%');
 			break;
 		case 'i':
 		case 'd':
@@ -165,7 +165,7 @@ int _form(char c, int num, va_list arg)
 				num++;
 				_putchar('0');
 			} else
-				num += print_number(x);
+				num += print_num(x);
 			break;
 		default:
 			num = _form2(c, num, arg);
@@ -188,17 +188,17 @@ int _printf(const char *format, ...)
 
 	if (!format)
 		return (-1);
-	for (i = 0; format[i]; i++)
+	for (n = 0; format[n]; n++)
 	{
-		if (format[i] != '%')
+		if (format[n] != '%')
 		{
 			num++;
-			_putchar(format[i]);
+			_putchar(format[n]);
 		}
-		else if (format[i + 1])
+		else if (format[n + 1])
 		{
 			n++;
-			num = _form(format[i], num, arg);
+			num = _form(format[n], num, arg);
 		}
 		else
 			return (-1);
