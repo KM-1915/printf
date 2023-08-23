@@ -36,7 +36,9 @@ typedef struct flags
 	int space;
 	int hash;
 	int minus;
-	int zero
-} flags_t;
+	int zero;
+
 int _flags(char s, flags_t *f);
+} flags_t;
+
 #endif
