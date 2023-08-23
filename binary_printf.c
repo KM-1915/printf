@@ -3,70 +3,62 @@
 #include<stdio.h>
 #include<stdlib.h>
 /**
- * printf_bin - prints a binary number.
- * @val: arguments.
- * Return: 1.
+ * print_num - printing numbers
+ * @i: number
+ * Return: 0
  */
-nt _printf(const char *format, ...)
+int print_num(int i)
 {
-	int c;
-	char *s;
-	unsigned int num, mask;
-	va_list args;
-	va_start(args, format);
-	int count = 0;
+	unsigned int a, b, c, d, e;
+	int i = 0;
 
-	while (*format != '\0')
+	if (i < 0)
 	{
-		if (*format == '%')
-		{
-			format++;
-			if (*format == '%')
-			{
-				putchar('%')
-					count++;
-			}
-			else if (*format == 'C')
-			{
-				c = va_arg(args, int);
-				putchar(c);
-				count++;
-			}
-			else if (*format == 'S')
-			{
-				s = va_arg(args, char*);
-				while (*s != '\0')
-				{
-					putchar(*s);
-					s++;
-					count++;
-				}
-			}
-			else if (*format == '0')
-			{
-				putchar('%');
-				putchar('0');
-				count += 2;
-			}
-			else if (*format == 'b')
-			{
-				num = va_arg(args, unsigned int);
-				mask = 1 << (sizeof(unsigned int) * 8 - 1);
-				while (mask > 0)
-				{
-					putchar((num & mask) ? '1' : '0');
-					mask >>= 1;
-					count++;
-				}
-			}
-		}
-		else
-		{
-			putchar(*format);
-			count++;
-		}
-		format++;
+		_putchar('-');
+		i = i * -1;
+		num++;
 	}
-	va_end(args);
-	return (count);
+	b = i;
+	c = 1;
+	for (a = 1 ; b > 9 ; a++)
+	{
+		b = b / 10;
+		c = c * 10;
+	}
+	for (e = 1; e <= a; e++)
+	{
+		d = i / c;
+		i = i % c;
+		c = c / 10;
+		_putchar(d + '0');
+		num++;
+	}
+	return (num);
+}
+/**
+ * print_binary - chnages decimals to binary
+ * @i: decimal
+ * Return: 0
+ */
+int print_binary(unsigned int i)
+{
+	unsigned int a, b, c, d, e;
+	int num = 0;
+
+	b = i;
+	c = 1;
+	for (a = 1 ; b > 1 ; a++)
+	{
+		b = b / 2;
+		c = c * 2;
+	}
+	for (e = 1; e <= a; e++)
+	{
+		d = i / c;
+		i = i % c;
+		c = c / 2;
+		_putchar(d + '0');
+		num++;
+	}
+	return (num);
 }

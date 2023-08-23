@@ -1,50 +1,208 @@
-#include "main.h"
-#include<stdio.h>
-#include<stdarg.h>
-#include<stdlib.h>
-void print_buffer(char buffer[], int *buff_ind);
+#include"main.h"
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
 /**
-* _printf - produces output according to a format
-* @format: a character string
-* Return: the number of characters printed
-* excluding the null byte used to end output to strings
-*/
-int _printf(const char * const format, ...)
+ * _form4 - prints depending the format
+ * @c: the format sent by the main
+ * @num:  for characters printed
+ * @arg: arguments
+ * Return: 0
+ */
+int _form4(char c, int num, va_list arg)
 {
-	convert_match m[] = {
-		{"%s", printf_string}, {"%c", printf_char},
-		{"%%", printf_37},
-		{"%i", printf_int}, {"%d", printf_dec}, {"%r", printf_srev},
-		{"%R", printf_rot13}, {"%b", printf_bin}, {"%u", printf_unsigned},
-		{"%o", printf_oct}, {"%x", printf_hex}, {"%X", printf_HEX},
-		{"%S", printf_exclusive_string}, {"%p", printf_pointer}
-	};
+	uintptr_t p;
+	void *pi;
 
-	va_list args;
-	int i = 0, j, len = 0;
-
-	va_start(args, format);
-	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
-		return (-1);
-
-Here:
-	while (format[i] != '\0')
+	switch (c)
 	{
-		j = 13;
-		while (j >= 0)
+	case 'p':
+		pi = va_arg(arg, void *);
+		p = (uintptr_t)*pi;
+		if (pi == NULL)
 		{
-			if (m[j].id[0] == format[i] && m[j].id[1] == format[i + 1])
-			{
-				len += m[j].f(args);
-				i = i + 2;
-				goto Here;
-			}
-			j--;
+			_printf("(nil)");
+			num += 5;
 		}
-		_putchar(format[i]);
-		len++;
-		i++;
+		else
+		{
+			_putchar('0');
+			_putchar('x');
+			num += 2;
+			num += print_hexa16(p);
+		}
+		break;
+	default:
+		num += 2;
+		_putchar('%');
+		_putchar(c);
 	}
-	va_end(args);
-	return (len);
+	return (num);
+}
+
+/**
+ * _form3 - prints depending the format
+ * @c: the format sent by the main
+ * @num: chars printed
+ * @arg: argument
+ * Return: 0
+ */
+int _form3(char c, int num, va_list arg)
+{
+	char *s;
+	int n;
+	char si[6] = "(null)";
+
+	switch (c)
+	{
+	case 'R':
+		s = va_arg(arg, char *);
+		if (!s)
+		{
+			for (n = 0; si[n]; n++, num++)
+				_putchar(si[n]);
+		}
+		else
+			num += rot13(s);
+		break;
+	case 'r':
+		s = va_arg(arg, char *);
+		if (!s)
+		{
+			for (n = 0; si[n]; n++, num++)
+				_putchar(si[n]);
+		}
+		else
+			num += print_rev(s);
+		break;
+		default:
+			num = _form4(c, num, arg);
+	}
+	return (num);
+}
+/**
+ * _form2 - prints depending the format
+ * @c: the format sent by the main
+ * @num: chars printed
+ * @arg: argument
+ * Return: 0
+ */
+int _form2(char c, int num, va_list arg)
+{
+	unsigned int k;
+
+	switch (c)
+	{
+		case 'b':
+			k = va_arg(arg, unsigned int);
+
+			num += print_bin(k);
+			break;
+		case 'o':
+			k = va_arg(arg, unsigned int);
+
+			num += print_oct(k);
+			break;
+		case 'x':
+			k = va_arg(arg, unsigned int);
+
+			num += print_hex(k);
+			break;
+		case 'X':
+			k = va_arg(arg, unsigned int);
+
+			num += print_HEX(k);
+			break;
+		case 'u':
+			k = va_arg(arg, unsigned int);
+
+			num += print_unsig(k);
+			break;
+		default:
+			num = _form3(c, num, arg);
+	}
+	return (num);
+}
+
+/**
+ * _form - prints depending the format
+ * @c: the format sent by the main
+ * @num: chars printed
+ * @arg: arguments
+ * Return: @count the number of characters printed
+ */
+int _form(char c, int num, va_list arg)
+{
+	int n, x;
+	char *s;
+	char si[6] = "(null)";
+
+	switch (c)
+	{
+		case 'c':
+			x = va_arg(arg, int);
+			num += _putchar(x);
+			break;
+		case 's':
+			s = va_arg(arg, char *);
+			if (!s)
+			{
+				for (n = 0; si[n]; n++, num++)
+					_putchar(si[n]);
+			}
+			else
+				count += _printstring(s);
+			break;
+		case '%':
+			count += _putchar('%');
+			break;
+		case 'i':
+		case 'd':
+			x = va_arg(arg, int);
+
+			if (!x)
+			{
+				num++;
+				_putchar('0');
+			} else
+				num += print_number(x);
+			break;
+		default:
+			num = _form2(c, num, arg);
+	}
+	return (num);
+}
+
+/**
+ * _printf - Fuction that prints to the std output
+ * @format: list of parameters passed
+ * Return: @count the number of characters printed
+ */
+int _printf(const char *format, ...)
+{
+	int n = 0;
+	int num = 0;
+	va_list arg;
+
+	va_start(arg, format);
+
+	if (!format)
+		return (-1);
+	for (i = 0; format[i]; i++)
+	{
+		if (format[i] != '%')
+		{
+			num++;
+			_putchar(format[i]);
+		}
+		else if (format[i + 1])
+		{
+			n++;
+			num = _form(format[i], num, arg);
+		}
+		else
+			return (-1);
+	}
+	va_end(arg);
+	return (num);
 }
