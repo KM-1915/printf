@@ -1,208 +1,92 @@
 #include"main.h"
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include<stdarg.h>
+#include<stdio.h>
+#include<stdlib.h>
+int _printf(const char *format, ...);
+int for_printf(const char *format, va_list arg, buffer_t *output);
+void sort(va_list arg, buffer_t *output);
+
 /**
- * _form4 - prints depending the format
- * @c: the format sent by the main
- * @num:  for characters printed
+ * sort: sorts files
+ * @arg: arguments
+ * @output: output
+ * Description: for _printf function
+ * Return: void
+ */
+void sort(va_list arg, buffer_t *output)
+{
+	va_end(arg);
+	write(1, output->start, output->len);
+	free_buffer(output);
+}
+
+/**
+ * for_printf - checks string for _printf
+ * @format: character string to print
+ * @output: output
  * @arg: arguments
  * Return: 0
  */
-int _form4(char c, int num, va_list arg)
+int for_printf(const char *format, va_list arg, buffer_t *output)
 {
-	intptr_t p;
-	void *pi;
+	int n, width, precision, r = 0;
+	char temp;
+	unsigned char flags, len;
+	unsigned int (*y)(va_list, buffer_t *,
+			unsigned char, int, int, unsigned char);
 
-	switch (c)
+	for (n = 0; *(format + n); n++)
 	{
-	case 'p':
-		pi = va_arg(arg, void *);
-		p = (intptr_t)pi;
-		if (pi == NULL)
+		len = 0;
+		if (*(format + n) == '%')
 		{
-			_printf("(nil)");
-			num += 5;
-		}
-		else
-		{
-			_putchar('0');
-			_putchar('x');
-			num += 2;
-			num += print_hex(p);
-		}
-		break;
-	default:
-		num += 2;
-		_putchar('%');
-		_putchar(c);
-	}
-	return (num);
-}
+			temp = 0;
+			flags = for_flags(format + n + 1, &temp);
+			width = _width(args, format + n + temp + 1, &temp);
+			precision = _precision(arg, format + n + temp + 1,
+					&temp);
+			len = for_length(format + n + temp + 1, &temp);
 
-/**
- * _form3 - prints depending the format
- * @c: the format sent by the main
- * @num: chars printed
- * @arg: argument
- * Return: 0
- */
-int _form3(char c, int num, va_list arg)
-{
-	char *s;
-	int n;
-	char si[6] = "(null)";
-
-	switch (c)
-	{
-	case 'R':
-		s = va_arg(arg, char *);
-		if (!s)
-		{
-			for (n = 0; si[n]; n++, num++)
-				_putchar(si[n]);
-		}
-		else
-			num += rot13(s);
-		break;
-	case 'r':
-		s = va_arg(arg, char *);
-		if (!s)
-		{
-			for (n = 0; si[n]; n++, num++)
-				_putchar(si[n]);
-		}
-		else
-			num += print_rev(s);
-		break;
-		default:
-			num = _form4(c, num, arg);
-	}
-	return (num);
-}
-/**
- * _form2 - prints depending the format
- * @c: the format sent by the main
- * @num: chars printed
- * @arg: argument
- * Return: 0
- */
-int _form2(char c, int num, va_list arg)
-{
-	unsigned int k;
-
-	switch (c)
-	{
-		case 'b':
-			k = va_arg(arg, unsigned int);
-
-			num += print_binary(k);
-			break;
-		case 'o':
-			k = va_arg(arg, unsigned int);
-
-			num += print_int(k);
-			break;
-		case 'x':
-			k = va_arg(arg, unsigned int);
-
-			num += print_hex(k);
-			break;
-		case 'X':
-			k = va_arg(arg, unsigned int);
-
-			num += print_Hex(k);
-			break;
-		case 'u':
-			k = va_arg(arg, unsigned int);
-
-			num += print_unsigned(k);
-			break;
-		default:
-			num = _form3(c, num, arg);
-	}
-	return (num);
-}
-
-/**
- * _form - prints depending the format
- * @c: the format sent by the main
- * @num: chars printed
- * @arg: arguments
- * Return: @count the number of characters printed
- */
-int _form(char c, int num, va_list arg)
-{
-	int n, x;
-	char *s;
-	char si[6] = "(null)";
-
-	switch (c)
-	{
-		case 'c':
-			x = va_arg(arg, int);
-			num += _putchar(x);
-			break;
-		case 's':
-			s = va_arg(arg, char *);
-			if (!s)
+			y = for_specifiers(format + n + temp + 1);
+			if (y != NULL)
 			{
-				for (n = 0; si[n]; n++, num++)
-					_putchar(si[n]);
+				y += temp + 1;
+				r += y(arg, output, flags, width, precision, len);
+				continue;
 			}
-			else
-				num += _printstr(s);
-			break;
-		case '%':
-			num += _putchar('%');
-			break;
-		case 'i':
-		case 'd':
-			x = va_arg(arg, int);
-
-			if (!x)
+			else if (*(format + n + temp + 1) == '\0')
 			{
-				num++;
-				_putchar('0');
-			} else
-				num += print_num(x);
-			break;
-		default:
-			num = _form2(c, num, arg);
+				r = -1;
+				break;
+			}
+		}
+		r += _memcpy(output, (format + n), 1);
+		n += (len != 0) ? 1 : 0;
 	}
-	return (num);
+	sort(arg, output);
+	return (r);
 }
 
 /**
- * _printf - Fuction that prints to the std output
- * @format: list of parameters passed
- * Return: @count the number of characters printed
+ * _printf - produces output according to a format
+ * @format: character string
+ * Return: 0
  */
 int _printf(const char *format, ...)
 {
-	int n = 0;
-	int num = 0;
+	buffer_t *output;
 	va_list arg;
+	int r;
+
+	if (format == NULL)
+		return (-1);
+	output = _buffer();
+	if (output == NULL)
+		return (-1);
 
 	va_start(arg, format);
 
-	if (!format)
-		return (-1);
-	for (n = 0; format[n]; n++)
-	{
-		if (format[n] != '%')
-		{
-			num++;
-			_putchar(format[n]);
-		}
-		else if (format[n + 1])
-		{
-			n++;
-			num = _form(format[n], num, arg);
-		}
-		else
-			return (-1);
-	}
-	va_end(arg);
-	return (num);
+	r = for_printf(format, arg, output);
+
+	return (r);
 }

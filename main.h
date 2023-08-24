@@ -6,45 +6,114 @@
 #include<limits.h>
 #include<unistd.h>
 
-/**
- * struct flags - struct containing flags to turn on.
- * @plus: flag for '+' char
- * @space: flag for ' ' char
- * @hash: flag for '#' char
- * @minus: flag for '-' char
- * @zero: flag for '0' char
- */
-typedef struct flags
-{
-	int plus;
-	int space;
-	int hash;
-	int minus;
-	int zero;
-};
-/**
- * flags_t: for flags to turn on
- */
-typedef struct flags flags_t;
+#define PLUS 1
+#define SPACE 2
+#define HASH 4
+#define ZERO 8
+#define NEG 16
+#define FLAG_PLUS (flags & 1)
+#define FLAG_SPACE ((flags >> 1) & 1)
+#define FLAG_HASH ((flags >> 2) & 1)
+#define FLAG_ZERO ((flags >> 3) & 1)
+#define FLAG_MINUS ((flags >> 4) & 1)
 
-int _flags(char s, flags_t *f);
-int _putchar(char c);
+#define SHORT 1
+#define LONG 2
+
+/**
+ * struct buffer_s - for buffers
+ * @buffer: buffer pointer
+ * @start: start pointer
+ * @len: length
+ */
+typedef struct buffer_s
+{
+	char *buffer;
+	char *start;
+	unsigned int len;
+} buffer_t;
+
+/**
+ * struct converter_s - for converters
+ * @spec for specifiers
+ * @func: pointer
+ */
+typedef struct converter_s
+{
+	unsigned char spec;
+	unsigned int (*func)(va_list, buffer_t *,
+			unsigned char, int, int, unsigned char);
+} converter_t;
+/**
+ * struct flag_s - for flags
+ * @flag: flag char
+ * @value: int value
+ */
+typedef struct flag_s
+{
+	unsigned char flag;
+	unsigned char value;
+} flag_t;
+
 int _printf(const char *format, ...);
-int print_hex(unsigned int i);
-int print_Hex(unsigned int i);
-int print_binary(unsigned int i);
-int print_unsigned(unsigned int i);
-int _puts(char *str);
-int print_num(int i);
-int _form1(char c, int num, va_list arg);
-int _form2(char c, int num, va_list arg);
-int _form3(char c, int num, va_list arg);
-int _form4(char c, int num, va_list arg);
-int print_rev(char *str);
-int _printstr(char *s);
-int rot13(char *s);
-int print_int(intptr_t i);
-int is_digit(char);
-int _width(const char *format, int *n, va_list arg);
-int _precision(const char *format, int *n, va_list arg);
+int for_printf(const char *format, va_list arg, buffer_t *output);
+void sort(va_list arg, buffer_t *output);
+
+unsigned int base_s(buffer_t *output, long int num, char *base,
+                unsigned char flags, int width, int precision);
+unsigned int base_u(buffer_t *output,
+                unsigned long int num, char *base,
+                unsigned char flags, int width, int precision);
+
+unsigned int _memcpy(buffer_t *output, const char *src, unsigned int i);
+void free_buffer(buffer_t *output);
+buffer_t *_buffer(void);
+
+unsigned char for_flags(const char *flag, char *ind);
+unsigned char for_length(const char *mod, char *ind);
+int _width(va_list arg, const char *mod, char *ind);
+int _precision(va_list arg, const char *mod, char *ind);
+unsigned int (*for_specifiers(const char *spec))(va_list, buffer_t *,
+                unsigned char, int, int, unsigned char);
+
+
+unsigned int for_di(va_list arg, buffer_t *output,
+                unsigned char flags, int width, int precision, unsigned char len);
+unsigned int for_b(va_list arg, buffer_t *output,
+                unsigned char flags, int width, int precision, unsigned char len);
+unsigned int for_u(va_list arg, buffer_t *output,
+                unsigned char flags, int width, int precision, unsigned char len);
+unsigned int for_o(va_list arg, buffer_t *output,
+                unsigned char flags, int width, int precision, unsigned char len);
+
+
+unsigned int for_x(va_list arg, buffer_t *output,
+                unsigned char flags, int width, int precision, unsigned char len);
+unsigned int for_X(va_list arg, buffer_t *output,
+                unsigned char flags, int width, int precision, unsigned char len);ZZ
+
+
+unsigned int for_s(va_list arg, buffer_t *output,
+                unsigned char flags, int width, int precision, unsigned char len);
+unsigned int for_S(va_list arg, buffer_t *output,
+                unsigned char flags, int width, int precision, unsigned char len);
+unsigned int for_r(va_list arg, buffer_t *output,
+                unsigned char flags, int width, int precision, unsigned char len);
+unsigned int for_R(va_list arg, buffer_t *output,
+                unsigned char flags, int width, int precision, unsigned char len);
+
+
+unsigned int for_width(buffer_t *output, unsigned int print,
+                unsigned char flags, int width);
+unsigned int string_width(buffer_t *output,
+                unsigned char flags, int width, int precision, int size);
+unsigned int neg_width(buffer_t *output, unsigned int print,
+                unsigned char flags, int width);
+
+unsigned int for_c(va_list arg, buffer_t *output,
+                unsigned char flags, int width, int precision, unsigned char len);
+unsigned int for_percent(va_list arg, buffer_t *output,
+                unsigned char flags, int width, int precision, unsigned char len);
+unsigned int for_p(va_list arg, buffer_t *output,
+                unsigned char flags, int width, int precision, unsigned char len);
 #endif

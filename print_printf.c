@@ -2,34 +2,80 @@
 #include<stdarg.h>
 #include<stdio.h>
 #include<stdlib.h>
+unsigned int for_width(buffer_t *output, unsigned int print,
+		unsigned char flags, int width);
+unsigned int string_width(buffer_t *output,
+		unsigned char flags, int width, int precision, int size);
+unsigned int neg_width(buffer_t *output, unsigned int print,
+		unsigned char flags, int width);
+
 /**
- * print_int - convert unsigned int in hexadecimal
- *@i: unsigned int
- * Return: numer times print
+ * for_width - for width modification
+ * @print: chars printed to output
+ * @flags: for flags
+ * @width: for width
+ * @output: output
+ * Return: bytes to buffer
  */
-int print_int(intptr_t i)
+unsigned int for_width(buffer_t *output, unsigned int print,
+		unsigned char flags, int width)
 {
-	intptr_t frac, temp;
+	unsigned int r = 0;
+	char wid = ' ';
 
-	int mor = 1, mor2;
-	char hexadec[100];
-	int num = 0;
-
-	frac = i;
-	while (frac != 0)
+	if (FLAG_MINUS == 0)
 	{
-		temp = frac % 16;
-
-		if (temp < 10)
-			temp = temp + 48;
-		else
-			temp = temp + 87;
-
-		hexadec[mor++] = temp;
-		frac = frac / 16;
+		for (width -= print; width > 0;)
+			r += _memcpy(output, &wid, 1);
 	}
-	for (mor2 = mor - 1 ; mor2 > 0; mor2--, num++)
-		_putchar(hexadec[mor2]);
 
-	return (num);
+	return (r);
+}
+
+/**
+ * string_width - for width modification
+ * @flags: for flags
+ * @width: for width
+ * @precision: for precision
+ * @output: output
+ * @size: string size
+ * Return: bytes to buffer
+ */
+unsigned int string_width(buffer_t *output,
+		unsigned char flags, int width, int precision, int size)
+{
+	unsigned int r = 0;
+	char wid = ' ';
+
+	if (FLAG_MINUS == 0)
+	{
+		width -= (precision == -1) ? size : precision;
+		for (; width > 0; width--)
+			r += _memcpy(output, &wid, 1);
+	}
+
+	return (r);
+}
+
+/**
+ * neg_width - for trailing spaces to buffer
+ * @print: bytes stored to output
+ * @flags: for flags
+ * @width: for width
+ * @output: output
+ * Return: bytes to buffer
+ */
+unsigned int neg_width(buffer_t *output, unsigned int print,
+		unsigned char flags, int width)
+{
+	unsigned int r = 0;
+	char wid = ' ';
+
+	if (FLAG_MINUS == 1)
+	{
+		for (width -= print; width > 0; width--)
+			r += _memcpy(output, &wid, 1);
+	}
+
+	return (r);
 }

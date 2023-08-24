@@ -1,41 +1,71 @@
 #include"main.h"
 #include<stdarg.h>
-#include<unistd.h>
 #include<stdio.h>
 #include<stdlib.h>
-/**
- * _putchar - prints to the std output
- * @c: The character to print
- * Return: 1, on error, -1
- */
-int _putchar(char c)
-{
-	static char buff[1024];
-	static int n;
+unsigned int _memcpy(buffer_t *output, const char *src, unsigned int i);
+void free_buffer(buffer_t *output);
+buffer_t *_buffer(void);
 
-	if (c == -1 || n >= 1024)
+/**
+ * _memcpy - copies bytes from memory
+ * @output: output
+ * @src: source pointer
+ * @i: number
+ * Return: 0
+ */
+unsigned int _memcpy(buffer_t *output, const char *src, unsigned int i)
+{
+	unsigned int ind;
+
+	for (ind = 0; ind < i; ind++)
 	{
-		write(1, &buff, n);
-		n = 0;
+		*(output->buffer) = *(src + ind);
+		(output->len)++;
+
+		if (output->len == 1024)
+		{
+			write(1, output->start, output->len);
+			output->buffer = output->start;
+			output->len = 0;
+		}
+
+		else
+			(output->buffer)++;
 	}
-	if (c != -1)
-	{
-		buff[n] = c;
-		n++;
-	}
-	return (1);
+	return (i);
 }
 
 /**
- * _puts - prints a string
- * @str: pointer to the string to print
+ * free_buffer - frees buffer
+ * @output: output
+ */
+void free_buffer(buffer_t *output)
+{
+	free(output->start);
+	free(output);
+}
+
+/**
+ * _buffer - for buffer
  * Return: 0
  */
-int _puts(char *str)
+buffer_t *_buffer(void)
 {
-	register int n;
+	buffer_t *output;
 
-	for (n = 0; str[n] != '\0'; n++)
-		_putchar(str[n]);
-	return (n);
+	output = malloc(sizeof(buffer_t));
+	if (output == NULL)
+		return (NULL);
+
+	output->buffer = malloc(sizeof(char) * 1024);
+	if (output->buffer == NULL)
+	{
+		free(output);
+		return (NULL);
+	}
+
+	output->start = output->buffer;
+	output->len = 0;
+
+	return (output);
 }

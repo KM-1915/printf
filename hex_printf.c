@@ -2,80 +2,79 @@
 #include<stdarg.h>
 #include<stdio.h>
 #include<stdlib.h>
+unsigned int for_x(va_list arg, buffer_t *output,
+		unsigned char flags, int width, int precision, unsigned char len);
+unsigned int for_X(va_list arg, buffer_t *output,
+		unsigned char flags, int width, int precision, unsigned char len);
+
 /**
- * print_hex - print number in hexadecimal with lc char
- * @i: unsigned int
+ * for_x - for unsigned int to hexadecimal l/c
+ * @arg: argument
+ * @flags: for flas
+ * @width: for width
+ * @precision: for precision
+ * @len: for length
+ * @output: output
  * Return: 0
  */
-int print_hex(unsigned int i)
+unsigned int for_x(va_list arg, buffer_t *output,
+		unsigned char flags, int width, int precision, unsigned char len)
 {
-	int n, x, remainder, num = 0;
-	unsigned int num_copy = i;
-	char *hexa;
+	unsigned long int num;
+	unsigned int r = 0;
+	char *ld = "0x";
 
-	if (i == 0)
-		return (_putchar('0'));
-	while (num_copy != 0)
-	{
-		num_copy /= 16;
-		num++;
-	}
-	hexa = malloc(num);
-	for (n = 0; i != 0; n++)
-	{
-		remainder = 0;
-		remainder = i % 16;
-		if (remainder < 10)
-		{
-			hexa[n] = remainder + '0';
-		}
-		else
-		{
-			hexa[n] = remainder + 'W';
-		}
-		i /= 16;
-	}
-	for (x = n - 1; x >= 0; x--)
-		_putchar(hexa[x]);
-	free(hexa);
-	return (num);
+	if (len == LONG)
+		num = va_arg(arg, unsigned long int);
+	else
+		num = va_arg(arg, unsigned int);
+	if (len == SHORT)
+		num = (unsigned short)num;
+
+	if (FLAG_HASH == 1 && num != 0)
+		r += _memcpy(output, ld, 2);
+
+	if (!(num == 0 && precision == 0))
+		ret += base_u(output, num, "0123456789abcdef",
+				flags, width, precision);
+
+	r += neg_width(output, r, flags, width);
+
+	return (r);
 }
+
 /**
- * print_Hex - Print number in hexadecimal with uppercase char
- * @i: unsigned int
- * Return: 0
+ * for_X - for unsigned int to hexadecimal in u/c
+ * @arg: arguments
+ * @flags: for flags
+ * @width: for width
+ * @precision: for precision
+ * @len: for legnth
+ * @output: output
+ * Return:0
  */
-int print_Hex(unsigned int i)
+unsigned int for_X(va_list arg, buffer_t *output,
+		unsigned char flags, int width, int precision, unsigned char len)
 {
-	int n, x, remainder, num = 0;
-	unsigned int num_copy = i;
-	char *hexa;
+	unsigned long int num;
+	unsigned int r = 0;
+	char *ld = "0X";
 
-	if (i == 0)
-		return (_putchar('0'));
-	while (num_copy != 0)
-	{
-		num_copy /= 16;
-		num++;
-	}
-	hexa = malloc(num);
-	for (n = 0; i != 0; n++)
-	{
-		remainder = 0;
-		remainder = i % 16;
-		if (remainder < 10)
-		{
-			hexa[n] = remainder + '0';
-		}
-		else
-		{
-			hexa[n] = remainder + '7';
-		}
-		i /= 16;
-	}
-	for (x = n - 1; x >= 0; x--)
-		_putchar(hexa[x]);
+	if (len == LONG)
+		num = va_arg(arg, unsigned long);
+	else
+		num = va_arg(arg, unsigned int);
+	if (len == SHORT)
+		num = (unsigned short)num;
 
-	free(hexa);
-	return (num);
+	if (FLAG_HASH == 1 && num != 0)
+		r += _memcpy(output, ld, 2);
+
+	if (!(num == 0 && precision == 0))
+		r += base_u(output, num, "0123456789ABCDEF",
+				flags, wid, precision);
+
+	r += neg_width(output, r, flags, width);
+
+	return (r);
 }
