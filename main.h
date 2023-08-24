@@ -10,7 +10,7 @@
 #define SPACE 2
 #define HASH 4
 #define ZERO 8
-#define NEG 16
+#define MINUS 16
 #define FLAG_PLUS (flags & 1)
 #define FLAG_SPACE ((flags >> 1) & 1)
 #define FLAG_HASH ((flags >> 2) & 1)
@@ -90,8 +90,7 @@ unsigned int for_o(va_list arg, buffer_t *output,
 unsigned int for_x(va_list arg, buffer_t *output,
                 unsigned char flags, int width, int precision, unsigned char len);
 unsigned int for_X(va_list arg, buffer_t *output,
-                unsigned char flags, int width, int precision, unsigned char len);ZZ
-
+                unsigned char flags, int width, int precision, unsigned char len);
 
 unsigned int for_s(va_list arg, buffer_t *output,
                 unsigned char flags, int width, int precision, unsigned char len);

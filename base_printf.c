@@ -46,7 +46,7 @@ unsigned int base_s(buffer_t *output, long int num, char *base,
 	}
 
 	dig = base[(num < 0 ? -1 : 1) * (num % size)];
-	_memcpy(output, &digit, 1);
+	_memcpy(output, &dig, 1);
 
 	return (r);
 }

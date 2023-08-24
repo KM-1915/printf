@@ -42,7 +42,7 @@ int for_printf(const char *format, va_list arg, buffer_t *output)
 		{
 			temp = 0;
 			flags = for_flags(format + n + 1, &temp);
-			width = _width(args, format + n + temp + 1, &temp);
+			width = _width(arg, format + n + temp + 1, &temp);
 			precision = _precision(arg, format + n + temp + 1,
 					&temp);
 			len = for_length(format + n + temp + 1, &temp);
@@ -50,7 +50,7 @@ int for_printf(const char *format, va_list arg, buffer_t *output)
 			y = for_specifiers(format + n + temp + 1);
 			if (y != NULL)
 			{
-				y += temp + 1;
+				n += temp + 1;
 				r += y(arg, output, flags, width, precision, len);
 				continue;
 			}

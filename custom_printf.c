@@ -122,7 +122,7 @@ int _precision(va_list arg, const char *mod, char *ind)
 	     *mod != '*')
 	{
 		if (*mod == '0')
-			(*ind++;
+			(*ind)++;
 		return (0);
 	}
 
@@ -176,7 +176,7 @@ unsigned int (*for_specifiers(const char *spec))(va_list, buffer_t *,
 
 	for (n = 0; converters[n].func; n++)
 	{
-		if (converters[n].specifier == *spec)
+		if (converters[n].spec == *spec)
 			return (converters[n].func);
 	}
 

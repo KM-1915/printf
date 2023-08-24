@@ -36,7 +36,7 @@ unsigned int for_di(va_list arg, buffer_t *output,
 		d = (short)d;
 
 	if (FLAG_SPACE == 1 && d >= 0)
-		ret += _memcpy(output, &space, 1);
+		r += _memcpy(output, &space, 1);
 
 	if (precision <= 0 && FLAG_MINUS == 0)
 	{
@@ -56,7 +56,7 @@ unsigned int for_di(va_list arg, buffer_t *output,
 			r += _memcpy(output, &plus, 1);
 
 		if (FLAG_ZERO == 1 && d < 0)
-			r += _memcpy(output, &neg, 1);
+			r += _memcpy(output, &minus, 1);
 
 		fig = (FLAG_ZERO == 1) ? '0' : ' ';
 		for (width -= count; width > 0; width--)
@@ -72,7 +72,7 @@ unsigned int for_di(va_list arg, buffer_t *output,
 		r += base_s(output, d, "0123456789",
 				flags, 0, precision);
 
-	r += neg_width(output, ret, flags, width);
+	r += neg_width(output, r, flags, width);
 
 	return (r);
 }
@@ -119,7 +119,7 @@ unsigned int for_o(va_list arg, buffer_t *output,
 	if (len == LONG)
 		num = va_arg(arg, unsigned long int);
 	else
-		num = va_arg(args unsigned int);
+		num = va_arg(arg, unsigned int);
 	if (len == SHORT)
 		num = (unsigned short)num;
 

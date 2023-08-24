@@ -35,7 +35,7 @@ unsigned int for_x(va_list arg, buffer_t *output,
 		r += _memcpy(output, ld, 2);
 
 	if (!(num == 0 && precision == 0))
-		ret += base_u(output, num, "0123456789abcdef",
+		r += base_u(output, num, "0123456789abcdef",
 				flags, width, precision);
 
 	r += neg_width(output, r, flags, width);
@@ -72,7 +72,7 @@ unsigned int for_X(va_list arg, buffer_t *output,
 
 	if (!(num == 0 && precision == 0))
 		r += base_u(output, num, "0123456789ABCDEF",
-				flags, wid, precision);
+				flags, width, precision);
 
 	r += neg_width(output, r, flags, width);
 

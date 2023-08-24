@@ -167,7 +167,7 @@ unsigned int for_R(va_list arg, buffer_t *output,
 	(void)flags;
 	(void)len;
 
-	str = va_arg(args, char *);
+	str = va_arg(arg, char *);
 	if (str == NULL)
 		return (_memcpy(output, null, 6));
 
