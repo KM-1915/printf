@@ -2,15 +2,10 @@
 #include<stdarg.h>
 #include<stdio.h>
 #include<stdlib.h>
-int _printf(const char *format, ...);
-int for_printf(const char *format, va_list arg, buffer_t *output);
-void sort(va_list arg, buffer_t *output);
-
 /**
- * sort: sorts files
+ * sort - sorts files for _prrintf
  * @arg: arguments
- * @output: output
- * Description: for _printf function
+ * @output: outpuT
  * Return: void
  */
 void sort(va_list arg, buffer_t *output)
