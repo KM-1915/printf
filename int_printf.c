@@ -2,15 +2,6 @@
 #include<stdarg.h>
 #include<stdio.h>
 #include<stdlib.h>
-unsigned int for_di(va_list arg, buffer_t *output,
-		unsigned char flags, int width, int precision, unsigned char len);
-unsigned int for_b(va_list arg, buffer_t *output,
-		unsigned char flags, int width, int precision, unsigned char len);
-unsigned int for_u(va_list arg, buffer_t *output,
-		unsigned char flags, int width, int precision, unsigned char len);
-unsigned int for_o(va_list arg, buffer_t *output,
-		unsigned char flags, int width, int precision, unsigned char len);
-
 /**
  * for_di - for signed int
  * @arg: argument
@@ -62,18 +53,15 @@ unsigned int for_di(va_list arg, buffer_t *output,
 		for (width -= count; width > 0; width--)
 			r += _memcpy(output, &fig, 1);
 	}
-
 	if (FLAG_ZERO == 0 && d < 0)
 		r += _memcpy(output, &minus, 1);
 	if (FLAG_ZERO == 0 && (FLAG_PLUS == 1 && d >= 0))
 		r += _memcpy(output, &plus, 1);
-
 	if (!(d == 0 && precision == 0))
 		r += base_s(output, d, "0123456789",
 				flags, 0, precision);
 
 	r += neg_width(output, r, flags, width);
-
 	return (r);
 }
 

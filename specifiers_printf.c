@@ -2,13 +2,6 @@
 #include<stdarg.h>
 #include<stdio.h>
 #include<stdlib.h>
-unsigned int for_c(va_list arg, buffer_t *output,
-		unsigned char flags, int width, int precision, unsigned char len);
-unsigned int for_percent(va_list arg, buffer_t *output,
-		unsigned char flags, int width, int precision, unsigned char len);
-unsigned int for_p(va_list arg, buffer_t *output,
-		unsigned char flags, int width, int precision, unsigned char len);
-
 /**
  * for_c - from arguments to unsigned char
  * @arg: arguments

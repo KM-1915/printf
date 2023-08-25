@@ -2,11 +2,6 @@
 #include<stdarg.h>
 #include<stdio.h>
 #include<stdlib.h>
-unsigned int for_x(va_list arg, buffer_t *output,
-		unsigned char flags, int width, int precision, unsigned char len);
-unsigned int for_X(va_list arg, buffer_t *output,
-		unsigned char flags, int width, int precision, unsigned char len);
-
 /**
  * for_x - for unsigned int to hexadecimal l/c
  * @arg: argument

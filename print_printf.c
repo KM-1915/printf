@@ -2,13 +2,6 @@
 #include<stdarg.h>
 #include<stdio.h>
 #include<stdlib.h>
-unsigned int for_width(buffer_t *output, unsigned int print,
-		unsigned char flags, int width);
-unsigned int string_width(buffer_t *output,
-		unsigned char flags, int width, int precision, int size);
-unsigned int neg_width(buffer_t *output, unsigned int print,
-		unsigned char flags, int width);
-
 /**
  * for_width - for width modification
  * @print: chars printed to output

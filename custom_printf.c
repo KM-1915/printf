@@ -2,13 +2,6 @@
 #include<stdarg.h>
 #include<stdio.h>
 #include<stdlib.h>
-unsigned char for_flags(const char *flag, char *ind);
-unsigned char for_length(const char *mod, char *ind);
-int _width(va_list arg, const char *mod, char *ind);
-int _precision(va_list arg, const char *mod, char *ind);
-unsigned int (*for_specifiers(const char *spec))(va_list, buffer_t *,
-		unsigned char, int, int, unsigned char);
-
 /**
  * for_flags - for flags
  * @flag: pointer
@@ -147,8 +140,7 @@ int _precision(va_list arg, const char *mod, char *ind)
 }
 
 /**
- * *for_specifiers - specifier conversion
- * @spec: pointer
+ * for_specifiers - specifier conversion
  * Return: 0
  * Description: for non-cutom and custom specifiers
  */
@@ -156,6 +148,7 @@ unsigned int (*for_specifiers(const char *spec))(va_list, buffer_t *,
 		unsigned char, int, int, unsigned char)
 {
 	int n;
+
 	converter_t converters[] = {
 		{'c', for_c},
 		{'s', for_s},
@@ -179,6 +172,5 @@ unsigned int (*for_specifiers(const char *spec))(va_list, buffer_t *,
 		if (converters[n].spec == *spec)
 			return (converters[n].func);
 	}
-
 	return (NULL);
 }

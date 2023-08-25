@@ -1,11 +1,6 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 
-#include <stdarg.h>
-#include<string.h>
-#include<limits.h>
-#include<unistd.h>
-
 #define PLUS 1
 #define SPACE 2
 #define HASH 4
@@ -19,6 +14,11 @@
 
 #define SHORT 1
 #define LONG 2
+
+#include<stdarg.h>
+#include<string.h>
+#include<limits.h>
+#include<unistd.h>
 
 /**
  * struct buffer_s - for buffers
@@ -35,8 +35,8 @@ typedef struct buffer_s
 
 /**
  * struct converter_s - for converters
- * @spec for specifiers
  * @func: pointer
+ * @spec: pointer
  */
 typedef struct converter_s
 {

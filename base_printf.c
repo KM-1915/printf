@@ -2,12 +2,6 @@
 #include<stdarg.h>
 #include<stdio.h>
 #include<stdlib.h>
-unsigned int base_s(buffer_t *output, long int num, char *base,
-		unsigned char flags, int width, int precision);
-unsigned int base_u(buffer_t *output,
-		unsigned long int num, char *base,
-		unsigned char flags, int width, int precision);
-
 /**
  * base_s - from int to base
  * @output: output

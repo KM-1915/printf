@@ -2,10 +2,6 @@
 #include<stdarg.h>
 #include<stdio.h>
 #include<stdlib.h>
-unsigned int _memcpy(buffer_t *output, const char *src, unsigned int i);
-void free_buffer(buffer_t *output);
-buffer_t *_buffer(void);
-
 /**
  * _memcpy - copies bytes from memory
  * @output: output

@@ -2,17 +2,8 @@
 #include<stdarg.h>
 #include<stdio.h>
 #include<stdlib.h>
-unsigned int for_s(va_list arg, buffer_t *output,
-		unsigned char flags, int width, int precision, unsigned char len);
-unsigned int for_S(va_list arg, buffer_t *output,
-		unsigned char flags, int width, int precision, unsigned char len);
-unsigned int for_r(va_list arg, buffer_t *output,
-		unsigned char flags, int width, int precision, unsigned char len);
-unsigned int for_R(va_list arg, buffer_t *output,
-		unsigned char flags, int width, int precision, unsigned char len);
-
 /**
- * for_s: from argument to string
+ * for_s - from argument to string
  * @arg: arguments
  * @flags: for flags
  * @width: for width
